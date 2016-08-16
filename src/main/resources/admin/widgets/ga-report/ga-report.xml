@@ -4,4 +4,7 @@
   <interfaces>
     <interface>com.enonic.xp.content-manager.context-widget</interface>
   </interfaces>
+  <behavior_patterns>
+    <pattern>re-render-on-resize</pattern>
+  </behavior_patterns>
 </widget>
