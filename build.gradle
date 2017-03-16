@@ -19,7 +19,7 @@ apply plugin: 'com.enonic.defaults'
 
 app {
     name = project.appName
-    displayName = project.displayName
+    displayName = 'Google Analytics App'
     vendorName = 'Enonic AS'
     vendorUrl = 'http://enonic.com'
 }
