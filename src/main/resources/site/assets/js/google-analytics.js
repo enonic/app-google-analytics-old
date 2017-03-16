@@ -44,7 +44,7 @@
             // Get the first Google Analytics account.
             let accountId;
             if (response.result.items.length == 1) {
-                accountId = response.result.items[0];
+                accountId = response.result.items[0].id;
             }
             else {
                 let items = response.result.items.filter(item => (trackingId.indexOf(item.id) > -1));
