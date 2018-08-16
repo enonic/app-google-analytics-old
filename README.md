@@ -1,6 +1,6 @@
 # Google Analytics App for Enonic XP
 
-This app extends the administration console by allowing to watch
+This app extends the administration console by allowing to collect
 Google Analytics statistics for current page or site.
 
 Here's the documentation for this application:
@@ -12,6 +12,7 @@ Here's the documentation for this application:
 
 | App version | Required XP version | Download |
 | ----------- | ------------------- | -------- |
+| 1.8.0 | 6.8.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.8.0/ga-1.7.0.jar) |
 | 1.7.0 | 6.8.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.7.0/ga-1.7.0.jar) |
 | 1.6.3 | 6.8.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.6.3/ga-1.6.3.jar) |
 | 1.6.2 | 6.8.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.6.2/ga-1.6.2.jar) |

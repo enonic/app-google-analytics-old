@@ -1,27 +1,16 @@
-buildscript {
-    repositories {
-        mavenLocal()
-        jcenter()
-        maven {
-            url 'http://repo.enonic.com/public'
-        }
-    }
-
-    dependencies {
-        classpath 'com.enonic.gradle:gradle-defaults:1.0.0'
-        classpath "com.enonic.xp:gradle-plugin:${xpVersion}"
-    }
+plugins {
+    id 'com.enonic.xp.app' version '1.0.17'
+    id 'com.moowork.node' version '1.2.0'
+    id 'com.enonic.defaults' version '1.0.2'
+    id 'maven'
 }
-
-apply plugin: 'maven'
-apply plugin: 'com.enonic.xp.app'
-apply plugin: 'com.enonic.defaults'
 
 app {
     name = project.appName
     displayName = 'Google Analytics App'
     vendorName = 'Enonic AS'
     vendorUrl = 'http://enonic.com'
+    systemVersion = "${xpVersion}"
 }
 
 dependencies {
@@ -42,7 +31,7 @@ dependencies {
 
 repositories {
     mavenLocal()
-    mavenCentral()
+    jcenter()
     maven {
         url 'http://repo.enonic.com/public'
     }
