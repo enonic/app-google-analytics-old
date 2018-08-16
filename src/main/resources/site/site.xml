@@ -9,6 +9,10 @@
       <label>Enable tracking</label>
       <occurrences minimum="0" maximum="1"/>
     </input>
+    <input type="Checkbox" name="enableAnonymization">
+      <label>Enable IP anonymization</label>
+      <occurrences minimum="0" maximum="1"/>
+    </input>
   </config>
   <filters>
     <response-filter name="ga-report" order="10"/>

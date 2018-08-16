@@ -12,6 +12,7 @@ exports.responseFilter = function (req, res) {
     });
     var trackingID = siteConfig['trackingId'] || '';
     var enableTracking = siteConfig['enableTracking'] || false;
+    var enableAnonymization = siteConfig['enableAnonymization'] || false;
 
     if (!trackingID || !enableTracking) {
         return res;
@@ -28,7 +29,7 @@ exports.responseFilter = function (req, res) {
     snippet += 'm=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)';
     snippet += '})(window,document,\'script\',\'//www.google-analytics.com/analytics.js\',\'ga\');';
     snippet += 'ga(\'create\', \'' + trackingID + '\', \'auto\');';
-    snippet += 'ga(\'send\', \'pageview\');';
+    snippet += 'ga(\'send\', \'pageview\'' + (enableAnonymization ? ', {\'anonymizeIp\': true}' : '') + ');';
     snippet += '</script>';
     snippet += '<!-- End Google Analytics -->';
 
