@@ -19,7 +19,7 @@
     var serviceUrl = gaScript.getAttribute('serviceurl');
     var trackingId = gaScript.getAttribute('trackingid');
     var pageId = gaScript.getAttribute('pageid');
-    var uid = gaDocument.baseURI.split('?uid=')[1].split("&")[0];
+    //var uid = gaDocument.baseURI.split('?uid=')[1].split("&")[0];
     var viewId;
     var dataCharts = [];
 
