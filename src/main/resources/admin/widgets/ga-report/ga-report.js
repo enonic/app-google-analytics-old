@@ -13,7 +13,7 @@ function handleGet(req) {
     if (!contentId) {
         return {
             contentType: 'text/html',
-            body: '<widget class="no-selection-message">No content selected</widget>'
+            body: '<widget class="error">No content selected</widget>'
         };
     }
 
@@ -33,7 +33,9 @@ function handleGet(req) {
         googleAnalyticsJsUrl: portalLib.assetUrl({path: 'js/google-analytics.js'}),
         serviceUrl: '/admin/rest/google-analytics/authenticate',
         trackingId: siteConfig && siteConfig.trackingId ? siteConfig.trackingId : "",
-        pageId: siteConfig ? pageId : -1
+        mapsApiKey: siteConfig && siteConfig.mapsApiKey ? siteConfig.mapsApiKey : "",
+        pageId: siteConfig ? pageId : -1,
+        widgetId: app.name
     };
 
     return {

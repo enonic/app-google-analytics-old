@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <widget>
   <display-name>Google Analytics</display-name>
+  <description>Track and report website traffic</description>
   <interfaces>
     <interface>contentstudio.contextpanel</interface>
   </interfaces>

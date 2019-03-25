@@ -1,4 +1,4 @@
-<widget>
+<widget data-th-id="${'widget-' + widgetId}">
     <link rel="stylesheet" th:href="${googleAnalyticsCssUrl}" type="text/css"/>
     <div data-th-id="ga-authenticated" th:class="widget-container" hidden="true">
         <div data-th-id="date-range-container" class="date-range-container">
@@ -16,4 +16,17 @@
     <div data-th-id="ga-not-authenticated" th:class="error" hidden="true"></div>
 </widget>
 <script th:src="${embedApiJsUrl}" type="text/javascript"></script>
-<script th:src="${googleAnalyticsJsUrl}" type="text/javascript" th:attr="serviceurl=${serviceUrl},trackingid=${trackingId},pageid=${pageId}"></script>
+<script th:src="${googleAnalyticsJsUrl}" type="text/javascript"></script>
+<script th:if="${mapsApiKey}" src="https://www.google.com/jsapi"></script>
+<script th:if="${mapsApiKey}" data-th-src="${'https://maps.googleapis.com/maps/api/js?key=' + mapsApiKey}"></script>
+<script data-th-inline="javascript">
+    /*<![CDATA[*/
+    var CONFIG = {
+        widgetId: [[${widgetId}]],
+        serviceurl: [[${serviceUrl}]],
+        trackingid: [[${trackingId}]],
+        pageid: [[${pageId}]]
+    };
+
+    /*]]>*/
+</script>
