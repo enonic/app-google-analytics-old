@@ -21,10 +21,10 @@ dependencies {
     include "com.enonic.xp:lib-portal:${xpVersion}"
     include "com.enonic.xp:lib-i18n:${xpVersion}"
     include "com.enonic.lib:lib-thymeleaf:2.0.0-B1"
-    include( 'com.google.apis:google-api-services-analytics:v3-rev116-1.20.0' ) {
+    include( 'com.google.apis:google-api-services-analytics:v3-rev161-1.25.0' ) {
         exclude group: 'com.google.guava', module: 'guava-jdk5'
     }
-    include 'org.codehaus.jackson:jackson-mapper-asl:1.8.5'
+    include 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
 }
 
 repositories {
