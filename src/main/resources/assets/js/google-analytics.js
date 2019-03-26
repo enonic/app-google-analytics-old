@@ -7,11 +7,6 @@ window['HTMLImports'].whenReady(function() {
     var dataCharts = [];
 
 // GA API BEGIN
-    /*
-        if (!widgetId || !serviceUrl || !trackingId) {
-            throw 'Invalid setup';
-        }
-    */
 
     function queryAccounts() {
         gapi.client.analytics.management.accounts.list().then(handleAccounts);

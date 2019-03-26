@@ -33,7 +33,7 @@ function handleGet(req) {
         googleAnalyticsJsUrl: portalLib.assetUrl({path: 'js/google-analytics.js'}),
         serviceUrl: '/admin/rest/google-analytics/authenticate',
         trackingId: siteConfig && siteConfig.trackingId ? siteConfig.trackingId : "",
-        mapsApiKey: siteConfig && siteConfig.mapsApiKey ? siteConfig.mapsApiKey : "",
+        mapsApiKey: app.config['ga.mapsApiKey'] || "",
         pageId: siteConfig ? pageId : -1,
         widgetId: app.name
     };

@@ -13,10 +13,6 @@
       <label>Enable IP anonymization</label>
       <occurrences minimum="0" maximum="1"/>
     </input>
-    <input type="TextLine" name="mapsApiKey">
-      <label>Maps API Key</label>
-      <occurrences minimum="0" maximum="1"/>
-    </input>
   </form>
   <processors>
     <response-processor name="ga-report" order="10"/>
