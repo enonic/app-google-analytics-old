@@ -1,25 +1,8 @@
-(function () {
-
-    function getDocument(script) {
-        return script ? script.ownerDocument : document;
-    }
-
-    function getCurrentScript() {
-        var script = window.HTMLImports ? window.HTMLImports.currentScript : undefined;
-
-        if (!script && !!document.currentScript) {
-            script = document.currentScript.__importElement || document.currentScript;
-        }
-
-        return script;
-    }
-
-    var gaScript = getCurrentScript();
-    var gaDocument = getDocument(gaScript);
-    var serviceUrl = gaScript.getAttribute('serviceurl');
-    var trackingId = gaScript.getAttribute('trackingid');
-    var pageId = gaScript.getAttribute('pageid');
-    var uid = gaDocument.baseURI.split('?uid=')[1].split("&")[0];
+window['HTMLImports'].whenReady(function() {
+    var widgetId = CONFIG.widgetId;
+    var serviceUrl = CONFIG.serviceurl;
+    var trackingId = CONFIG.trackingid;
+    var pageId = CONFIG.pageid;
     var viewId;
     var dataCharts = [];
 
@@ -45,8 +28,7 @@
             let accountId;
             if (response.result.items.length == 1) {
                 accountId = response.result.items[0].id;
-            }
-            else {
+            } else {
                 let items = response.result.items.filter(item => (trackingId.indexOf(item.id) > -1));
                 if (items[0]) {
                     accountId = items[0].id;
@@ -59,8 +41,7 @@
             if (accountId) {
                 // Query for properties.
                 queryProfiles(accountId, trackingId);
-            }
-            else {
+            } else {
                 showError('No accounts found for the GA user.');
             }
         } else {
@@ -100,8 +81,7 @@
             // Show statistics for found View ID
             if (pageId) {
                 showStatisticsForPage();
-            }
-            else {
+            } else {
                 showStatisticsForSite();
             }
         } else {
@@ -129,8 +109,7 @@
             var responseObject = JSON.parse(request.responseText);
             if (responseObject.errorMessage) {
                 showAuthenticationError(responseObject.errorMessage);
-            }
-            else if (responseObject.token) {
+            } else if (responseObject.token) {
 
                 cleanupCookies();
 
@@ -143,8 +122,7 @@
                     createContainerDiv("chart-container-1");
                     createContainerDiv("chart-container-2");
                     createContainerDiv("chart-container-3", "ga-kpi-chart");
-                }
-                else {
+                } else {
                     createContainerDiv("chart-container-1");
                     createContainerDiv("chart-container-2");
                     createContainerDiv("chart-container-2-1", "ga-vertical-container", "chart-container-2");
@@ -378,23 +356,19 @@
             var expires = "; expires=" + date.toGMTString();
         }
 
-        document.cookie = "ga_" + name + "=" + value + expires + "; path=/";
-    }
-
-    function saveUidInCookie() {
-        createCookie("uid", uid);
+        document.cookie = name + "=" + value + expires + "; path=/";
     }
 
     function saveDateInCookie(date) {
-        createCookie(uid + ".start-date", date);
+        createCookie("ga.start-date", date);
     }
 
     function getDateFromCookie(name) {
-        return getCookie(uid + "." + name);
+        return getCookie("ga." + name);
     }
 
     function getCookie(cname) {
-        var name = "ga_" + cname + "=";
+        var name = cname + "=";
         var ca = document.cookie.split(';');
         for (var i = 0; i < ca.length; i++) {
             var c = ca[i].trim();
@@ -406,17 +380,8 @@
     }
 
     function cleanupCookies() {
-        var tempUid = getCookie("uid");
-
-        if (tempUid && tempUid != uid) {
-            createCookie("uid", tempUid, -1);
-            createCookie(tempUid + ".start-date", "", -1);
-            createCookie(tempUid + ".end-date", "", -1);
-        }
-
-        if (!tempUid || tempUid != uid) {
-            saveUidInCookie(uid);
-        }
+        createCookie("ga.start-date", "", -1);
+        createCookie("ga.end-date", "", -1);
     }
 
 // COOKIES END
@@ -457,10 +422,12 @@
         if (date == "thisWeek") {
             return getFirstDateOfPeriod((new Date).getDay());
         }
-        else if (date == "thisMonth") {
+
+        if (date == "thisMonth") {
             return getFirstDateOfPeriod((new Date).getDate());
         }
-        else if (date == "thisYear") {
+
+        if (date == "thisYear") {
             return getFirstDateOfYear();
         }
 
@@ -485,17 +452,17 @@
     }
 
     function getContainer(containerId) {
-        containerId = containerId + "_" + uid;
-        return document.getElementById(containerId) || gaDocument.getElementById(containerId);
+        const widgetContainer = document.getElementById(`widget-${widgetId}`);
+        return widgetContainer.querySelector(`#${containerId}`);
     }
 
-    function createContainerDiv(id, cls, parentId) {
-        var divId = id + "_" + uid;
+    function createContainerDiv(divId, cls, parentId) {
+        //var divId = id + "_" + uid;
         var container = getContainer(parentId || "ga-authenticated");
         var div = container.querySelector("#" + divId);
 
         if (!div) {
-            div = gaDocument.createElement("div");
+            div = document.createElement("div");
 
             div.setAttribute("id", divId);
             if (cls) {
@@ -529,10 +496,9 @@
 
     if (gapi.analytics.auth) {
         getToken();
-    }
-    else {
+    } else {
         gapi.analytics.ready(function () {
             getToken();
         });
     }
-}());
+});

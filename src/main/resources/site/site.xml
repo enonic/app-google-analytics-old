@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-  <config>
+  <form>
     <input type="TextLine" name="trackingId">
       <label>Tracking Id</label>
       <occurrences minimum="1" maximum="1"/>
@@ -13,8 +13,8 @@
       <label>Enable IP anonymization</label>
       <occurrences minimum="0" maximum="1"/>
     </input>
-  </config>
-  <filters>
-    <response-filter name="ga-report" order="10"/>
-  </filters>
+  </form>
+  <processors>
+    <response-processor name="ga-report" order="10"/>
+  </processors>
 </site>
