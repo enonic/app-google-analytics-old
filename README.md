@@ -12,6 +12,7 @@ Here's the documentation for this application:
 
 | App version | Required XP version | Download |
 | ----------- | ------------------- | -------- |
+| 1.9.1 | 7.0.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.9.1/ga-1.9.1.jar) |
 | 1.9.0 | 7.0.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.9.0/ga-1.9.0.jar) |
 | 1.8.0 | 6.8.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.8.0/ga-1.8.0.jar) |
 | 1.7.0 | 6.8.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.7.0/ga-1.7.0.jar) |
