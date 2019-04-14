@@ -420,7 +420,6 @@ window['HTMLImports'].whenReady(function() {
 
     function getStartDate(date) {
         if (date == "thisWeek") {
-            debugger;
             return getFirstDateOfPeriod((new Date).getDay());
         }
 
