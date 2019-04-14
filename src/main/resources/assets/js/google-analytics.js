@@ -398,7 +398,7 @@ window['HTMLImports'].whenReady(function() {
 
     function getFirstDateOfPeriod(delta) {
         var date = new Date;
-        date = new Date(date.setDate(date.getDate() - delta + 1));
+        date = new Date(date.setDate(date.getDate() - (delta || 7) + 1));
 
         return dateToString(date);
     }
@@ -420,6 +420,7 @@ window['HTMLImports'].whenReady(function() {
 
     function getStartDate(date) {
         if (date == "thisWeek") {
+            debugger;
             return getFirstDateOfPeriod((new Date).getDay());
         }
 
