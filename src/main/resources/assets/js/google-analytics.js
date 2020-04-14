@@ -1,4 +1,4 @@
-window['HTMLImports'].whenReady(function() {
+(function() {
     var widgetId = CONFIG.widgetId;
     var serviceUrl = CONFIG.serviceurl;
     var trackingId = CONFIG.trackingid;
@@ -501,4 +501,4 @@ window['HTMLImports'].whenReady(function() {
             getToken();
         });
     }
-});
+})();
