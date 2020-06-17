@@ -1,8 +1,10 @@
 (function() {
-    var widgetId = CONFIG.widgetId;
-    var serviceUrl = CONFIG.serviceurl;
-    var trackingId = CONFIG.trackingid;
-    var pageId = CONFIG.pageid;
+    var widgetId = GA.config.widgetId;
+    var serviceUrl = GA.config.serviceurl;
+    var trackingId = GA.config.trackingid;
+    var pageId = GA.config.pageid;
+    var mapsApiKey = GA.config.mapsApiKey;
+    var embedApiJsUrl = GA.config.embedApiJsUrl;
     var viewId;
     var dataCharts = [];
 
@@ -89,20 +91,24 @@
         }
     }
 
-    function getToken() {
+    function isConfigValid() {
         if (pageId == "-1") {
             showError("GA app not added to the site");
-            return;
+            return false;
         }
         if (!serviceUrl) {
             showAuthenticationError();
-            return;
+            return false;
         }
         if (!trackingId) {
             showAuthenticationError("Tracking Id not found");
-            return;
+            return false;
         }
 
+        return true;
+    }
+
+    function getToken() {
         var request = new XMLHttpRequest();
         request.open("GET", serviceUrl, true);
         request.onload = function () {
@@ -143,11 +149,13 @@
         /**
          * Authorize the user with a token.
          */
-        gapi.analytics.auth.authorize({
-            serverAuth: {
-                access_token: token
-            }
-        });
+        if (!gapi.analytics.auth.isAuthorized()) {
+            gapi.analytics.auth.authorize({
+                serverAuth: {
+                    access_token: token
+                }
+            });
+        }
 
         queryAccounts();
     }
@@ -457,7 +465,6 @@
     }
 
     function createContainerDiv(divId, cls, parentId) {
-        //var divId = id + "_" + uid;
         var container = getContainer(parentId || "ga-authenticated");
         var div = container.querySelector("#" + divId);
 
@@ -494,11 +501,69 @@
 
 // DOM ELEMENTS END
 
-    if (gapi.analytics.auth) {
-        getToken();
-    } else {
-        gapi.analytics.ready(function () {
-            getToken();
+    function removeApi() {
+        const selectors = [
+            `script[id^="${widgetId}-script-"]`,
+            'link[href^="https://www.gstatic.com"]',
+            'script[src^="https://www.gstatic.com"]',
+            'script[src^="https://maps.googleapis.com"]'
+        ];
+        if (window.google) {
+            delete window.google;
+        }
+        const elements = document.querySelectorAll(selectors.join(','));
+
+        [].forEach.call(elements, function(element) {
+            // do whatever
+            element.parentNode.removeChild(element);
         });
+
     }
+
+    function appendScript(container, counter, src) {
+        const s = document.createElement("script");
+
+        s.id = `${widgetId}-script-${counter}`;
+        s.type = "text/javascript";
+        s.src = src;
+        container.append(s);
+    }
+
+    function appendApi() {
+        const widgetContainer = document.getElementById(`widget-${widgetId}`);
+
+        appendScript(widgetContainer, 1, embedApiJsUrl);
+        if (mapsApiKey) {
+            appendScript(widgetContainer, 2, 'https://www.google.com/jsapi');
+            appendScript(widgetContainer, 3, `https://maps.googleapis.com/maps/api/js?key=${mapsApiKey}`);
+        }
+    }
+
+    function initApi() {
+        removeApi();
+        if (isConfigValid()) {
+            appendApi();
+
+            const waitForApi = setTimeout(function(){
+                if (gapi) {
+                    clearTimeout(waitForApi);
+                    startWidget();
+                }
+            }, 100);
+        }
+    }
+
+    function startWidget() {
+
+        if (gapi.analytics.auth) {
+            getToken();
+        } else {
+            gapi.analytics.ready(function () {
+                getToken();
+            });
+        }
+    }
+
+    initApi();
+
 })();

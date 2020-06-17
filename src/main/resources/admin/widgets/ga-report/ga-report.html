@@ -15,17 +15,18 @@
     </div>
     <div data-th-id="ga-not-authenticated" th:class="error" hidden="true"></div>
 </widget>
-<script th:src="${embedApiJsUrl}" type="text/javascript"></script>
 <script th:src="${googleAnalyticsJsUrl}" type="text/javascript"></script>
-<script th:if="${mapsApiKey}" src="https://www.google.com/jsapi"></script>
-<script th:if="${mapsApiKey}" data-th-src="${'https://maps.googleapis.com/maps/api/js?key=' + mapsApiKey}"></script>
 <script data-th-inline="javascript">
     /*<![CDATA[*/
-    var CONFIG = {
-        widgetId: [[${widgetId}]],
-        serviceurl: [[${serviceUrl}]],
-        trackingid: [[${trackingId}]],
-        pageid: [[${pageId}]]
+    var GA = {
+        config: {
+            widgetId: [[${widgetId}]],
+            serviceurl: [[${serviceUrl}]],
+            trackingid: [[${trackingId}]],
+            pageid: [[${pageId}]],
+            mapsApiKey: [[${mapsApiKey}]],
+            embedApiJsUrl: [[${embedApiJsUrl}]]
+        }
     };
 
     /*]]>*/
