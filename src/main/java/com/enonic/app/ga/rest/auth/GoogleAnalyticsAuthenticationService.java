@@ -22,7 +22,7 @@ import com.google.api.client.auth.oauth2.TokenResponseException;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.SecurityUtils;
 import com.google.api.services.analytics.AnalyticsScopes;
 import com.google.common.base.Strings;
@@ -36,8 +36,6 @@ import com.enonic.xp.security.RoleKeys;
 public class GoogleAnalyticsAuthenticationService
     implements JaxRsComponent
 {
-    private static final JacksonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-
     private static final String GA_SERVICE_ACCOUNT_PROPERTY_KEY = "ga.serviceAccount";
 
     private static final String GA_P12_KEY_PATH = "ga.p12KeyPath";
@@ -166,7 +164,7 @@ public class GoogleAnalyticsAuthenticationService
 
         final GoogleCredential credential = new GoogleCredential.Builder().
             setTransport( httpTransport ).
-            setJsonFactory( JSON_FACTORY ).
+            setJsonFactory( GsonFactory.getDefaultInstance() ).
             setServiceAccountId( serviceAccount ).
             setServiceAccountPrivateKey( privateKey ).
             setServiceAccountScopes( AnalyticsScopes.all() ).
