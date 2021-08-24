@@ -1,20 +1,20 @@
-var contentLib = require('/lib/xp/content');
-var portalLib = require('/lib/xp/portal');
+const  contentLib = require('/lib/xp/content');
+const  portalLib = require('/lib/xp/portal');
 
 exports.responseProcessor = function (req, res) {
-    var contentId = req.params.contentId;
+    let  contentId = req.params.contentId;
     if (!contentId) {
         contentId = portalLib.getContent()._id;
     }
-    var siteConfig = contentLib.getSiteConfig({
+    const  siteConfig = contentLib.getSiteConfig({
         key: contentId,
         applicationKey: app.name
     });
-    var trackingID = siteConfig['trackingId'] || '';
-    var enableTracking = siteConfig['enableTracking'] || false;
-    var enableAnonymization = siteConfig['enableAnonymization'] || false;
+    const  measurementID = siteConfig['trackingId'] || '';
+    const  enableTracking = siteConfig['enableTracking'] || false;
+    const  enableAnonymization = siteConfig['enableAnonymization'] || false;
 
-    if (!trackingID || !enableTracking) {
+    if (!measurementID || !enableTracking) {
         return res;
     }
 
@@ -22,18 +22,16 @@ exports.responseProcessor = function (req, res) {
         return res;
     }
 
-    var snippet = '<!-- Google Analytics -->';
-    snippet += '<script>';
-    snippet += '(function(i,s,o,g,r,a,m){i[\'GoogleAnalyticsObject\']=r;i[r]=i[r]||function(){';
-    snippet += '(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),';
-    snippet += 'm=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)';
-    snippet += '})(window,document,\'script\',\'//www.google-analytics.com/analytics.js\',\'ga\');';
-    snippet += 'ga(\'create\', \'' + trackingID + '\', \'auto\');';
-    snippet += 'ga(\'send\', \'pageview\'' + (enableAnonymization ? ', {\'anonymizeIp\': true}' : '') + ');';
-    snippet += '</script>';
-    snippet += '<!-- End Google Analytics -->';
+    let snippet = `<script async src="https://www.googletagmanager.com/gtag/js?id=${measurementID}"></script>
+        <script>
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config','${measurementID}');`
 
-    var headEnd = res.pageContributions.headEnd;
+    if (enableAnonymization) {
+        snippet += `gtag('config','${measurementID}',{'anonymize_ip':true});`;
+    }
+    snippet += "</script>";
+
+    const  headEnd = res.pageContributions.headEnd;
     if (!headEnd) {
         res.pageContributions.headEnd = [];
     }

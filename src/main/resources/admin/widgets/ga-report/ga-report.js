@@ -1,10 +1,10 @@
-var contentLib = require('/lib/xp/content');
-var portalLib = require('/lib/xp/portal');
-var thymeleaf = require('/lib/thymeleaf');
+const  contentLib = require('/lib/xp/content');
+const  portalLib = require('/lib/xp/portal');
+const  thymeleaf = require('/lib/thymeleaf');
 
 function handleGet(req) {
 
-    var contentId = req.params.contentId;
+    let  contentId = req.params.contentId;
 
     if (!contentId && portalLib.getContent()) {
         contentId = portalLib.getContent()._id;
@@ -17,17 +17,17 @@ function handleGet(req) {
         };
     }
 
-    var content = contentLib.get({key: contentId});
-    var site = contentLib.getSite({key: contentId});
-    var siteConfig = contentLib.getSiteConfig({key: contentId, applicationKey: app.name});
-    var pageId = "";
+    const  content = contentLib.get({key: contentId});
+    const  site = contentLib.getSite({key: contentId});
+    const  siteConfig = contentLib.getSiteConfig({key: contentId, applicationKey: app.name});
+    const  pageId = "";
 
     if (content.type.indexOf(":site") == -1 && !!site) {
         pageId = content._path.replace(site._path, "");
     }
 
-    var view = resolve('ga-report.html');
-    var params = {
+    const  view = resolve('ga-report.html');
+    const  params = {
         googleAnalyticsCssUrl: portalLib.assetUrl({path: 'css/google-analytics.css'}),
         embedApiJsUrl: portalLib.assetUrl({path: 'js/embed-api.js'}),
         googleAnalyticsJsUrl: portalLib.assetUrl({path: 'js/google-analytics.js'}),
