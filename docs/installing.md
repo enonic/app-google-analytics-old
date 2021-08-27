@@ -1,15 +1,72 @@
 # Installing the app
 
-*This guide assumes that you already have an account with Google Analytics, enabled tracking for at least one website (called “Property” in the GA admin dashboard) and created at least one view for the website. 
-If not, please [refer to guidelines](https://www.google.com/analytics/) to set up Google Analytics first.
+*This guide assumes that you already have an account with Google Analytics. [Guidelines to setup google analytics](https://www.google.com/analytics/) 
 
-Before you proceed with integration, your [admin dashboard](https://analytics.google.com/analytics) should look something like this:
-
-![](images/ga_00.png)
+Navigate to the admin console (button in the bottom left).
 
 * [Open Google Developers Console](https://console.developers.google.com/project) and click Create Project button.
 
 ![](images/ga_01.png)
+
+## Create a analytics account:
+
+![](images/ga-01-1.png)
+
+Give your account the name of the organization or another name that represents all sites pages that will be included.
+
+On the property tab add a new property. Name is to the current page or site that will be analysed. (eks: enonic.com, )
+
+![](images/ga-02-1.png)
+
+Then we need to open the advanced options:
+
+![](images/ga-02-2.png)
+
+This app uses the Universal Analytics property. So turn this on: 
+
+![](images/ga-02-3.png)
+
+//TODO create a property with the UA-ID
+
+## Downloud the analytics app from the market
+
+* After login into the your Enonic system go the application tool: 
+
+![](images/applications.png)
+
+* Press install button to open up all application available:
+
+* When you have found the application you press the green install to add it.
+
+![](images/app-install.png)
+
+This text should popup at the bottom:
+
+![](images/installed-app.png)
+
+And the application should say installed.
+
+## Add to site
+Now we have it installed on the system, but not added to a specific site yet.  
+* Navigate to content studio where our have your site, and **edit** it.  
+Under the applications dropdown find Google Analytics app and check for it to be used:
+
+![](images/site-install.png)
+
+## Configure the app
+
+We need to add some configurations to the app. 
+* Open the app configuration:
+
+![](images/app-config.png)
+
+* Add the tracking id (UA-XXXXX) id to the tracking id field inside the configuration:
+
+![](images/app-tracking-id.png)
+
+Press apply to send page data to google analytics (tracking data might be delayed when first activated)
+
+## Setup the google analytics widget
 
 * Fill in project name (for example, “Google Analytics”) and click "Create" button to create your new project.
 
@@ -116,24 +173,3 @@ where `ga.serviceAccount` is the service account email and `ga.mapsApiKey` is Ma
 ![](images/ga_24.png)
 
 This concludes external part of the integration.
-
-* Now [download Google Analytics App](https://github.com/enonic/app-google-analytics.git), build and deploy. The Google Analytics App should now appear in the Applications console.
-
-![](images/ga_25.png)
-
-* In the Content Manager of Enonic XP click Edit for a site you’re setting up integration for and select “Google Analytics App” from Site config dropdown.
-
-![](images/ga_26.png)
-
-* In the Google Analytics App config section enter Tracking Id of your website.
-
-![](images/ga_27.png)
-
-If you don’t immediately have it, you can find it in the Google Analytics Admin Dashboard
-
-![](images/ga_28.png)
-
-That’s it, you’re done with integration!
-You should now be able to see "Google Analytics" in the detail panel of your website.
-
-![](images/ga_29.png)
