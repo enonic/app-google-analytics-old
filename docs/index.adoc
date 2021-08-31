@@ -1,0 +1,63 @@
+## Create a analytics account:
+
+image::images/ga-01-1.png[Blue create account button]
+
+Give your account the name of the organization or another name that represents all sites pages that will be included.
+
+On the property tab add a new property. Name is to the current page or site that will be analysed. (eks: enonic.com, )
+
+image::images/ga-02-1.png[Property name field with a placeholder site filled in]
+
+Then we need to open the advanced options:
+
+image::images/ga-02-2.png[Blue button/text "show advanced options"]
+
+This app uses the Universal Analytics property. So turn this on: 
+
+image::images/ga-02-3.png[Create universla analytics property with the "create a universla Analytics property only" selected]
+
+//TODO create a property with the UA-ID
+
+## Downloud the analytics app from the market
+
+* After login into the your Enonic system go the application tool: 
+
+image::images/applications.png["Applications" button in the Enonic dashboard interface]
+
+* Press install button to open up all application available:
+
+* When you have found the application you press the green install to add it.
+
+image::images/app-install.png[Install application inside the application admin tool]
+
+This text should popup at the bottom:
+
+image::images/installed-app.png[Pop up showing the Google Analytics app is installed successfully]
+
+And the application should say installed.
+
+## Add to site
+Now we have it installed on the system, but not added to a specific site yet.  
+* Navigate to content studio where our have your site, and **edit** it.  
+Under the applications dropdown find Google Analytics app and check for it to be used:
+
+image::images/site-install.png[Content studio site configuration showing the applications dropdown and Google Analytics App selected]
+
+## Configure the app
+
+We need to add some configurations to the app. 
+* Open the app configuration:
+
+image::images/app-config.png[Red bar showing the Google Analytics needs additional configuration]
+
+* Add the tracking id (UA-XXXXX) id to the tracking id field inside the configuration:
+
+image::images/app-tracking-id.png[Google Analytics configuration: Tracking Id shows a placeholer UA Code, Enable tracking checked, Enable IP anonymization not checked]
+
+Press apply to send page data to google analytics (tracking data might be delayed when first activated)
+
+The above steps will add Google Analytics to your site.
+We have additional analytics information available in our widget, but this needs to be setup. 
+
+link:widget.adoc[Set up asscidoc widget]
+Setting up the widget includes changes to server configuration files.
