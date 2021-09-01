@@ -1,96 +1,92 @@
 
-Our widget show addition information that is provided by google analytics:
+Our widget shows additional information that is provided by google analytics:
 
 image::images/widget-preview.png[Bar chars and Pie charts, showing site statistics]
 
-We will need to setup a google cloud platform account. 
+We will need to set up a google cloud platform account. 
 
-* link:https://console.developers.google.com/project[Open Google Developers Console]. 
-When you are doing click Create Project on the dashboard.
+. link:https://console.developers.google.com/project[Open Google Developers Console] and click Create Project on the dashboard.
 
-We suggest to use the site or organization name: eg. "site.com", "brand name" 
+- We suggest to use the site or organization name: eg. "site.com", "brand name" 
++
+image::images/create-project.png[New project button]
 
-image::images/ga_02.png[New project form with placeholder text in the fields]
-
-After creating the project open the top level menu in the top right and open "APIs & Services" -> Dashboard
-
+. Open the top level menu in the top left and open "APIs & Services" -> Dashboard
++
 image::images/Platform-menu-api.png[Shows the top level menu open and the APIs & Services item expanded]
 
-We want to enable a couple of APIs so press the "+ eneable APIs and services" on the top of the page:
-
+. We want to enable a couple of APIs so press the "+ Enable APIs and services" on the top of the page:
++
 image::images/apis-services.png[Show the button labeled "+ Enable apis and services"]
 
-On the go api Library search for "Google Analytics Reporting Api". 
-It should look like this: 
-
+. Search for "Google Analytics Reporting Api" using the API Library search. 
+- It should look like this: 
++
 image::images/analytics-api.png[Shows The google analytics api in the search result]
 
-And enable it: 
-
+. And enable it: 
++
 image::images/analytics-api-enable.png[Shows the analytics api page with an enable button]
 
-And the same two steps for the Maps JavaScript API
-
+. And the same two steps for the Maps JavaScript API
++
 image::images/maps-api-enable.png[Shows the Maps JavaScript API with an enable button]
 
-After enabling the Maps JavaScript API go to the credentials tab.
-
+. After enabling the Maps JavaScript API go to the "Credentials" tab which should look like this.
++
 image::images/Credentials.png[Shows the credentials tab]
 
-Should look like this:
-And press the "+ Create credentials" button. 
-
+. Press the "+ Create credentials" button. 
++
 image::images/Credentials-page.png[A full page view of the credentials tab]
 
-We want to create an api key: 
-
+. We want to create an API key: 
++
 image::images/api-key.png[Dropdown of different authentications]
 
-After creating it make sure to copy it. We will use this value later.
+- After creating it make sure to copy it. We will use this value later.
 
-We also need a service account. This is created on the dropdown on the above image. 
+. We also need a Service account. Select this option from the same dropdown as the "API key". 
 
-This will propmt you to create a new service account. Feel free to give this any name. 
-
+- This will propmt you to create a new Service account.
++
 image::images/service-account.png[A new service account dialog with placeholder tekst]
 
-Give the account the viewer role. Create the new account as the final step.
+. Give the account the viewer role. Create the new account as the final step.
 
-After you have created the account you should be brought back to the overview page.
-
+. After you have created the account you should be brought back to the overview page.
++
 image::images/service-overview.png[The list of service accounts]
 
-Copy the email of the service account we will need twice later.
+. Copy the email of the service account we will need twice later.
 
-Now that we have created an account we need to add give it access to our project.
+Now that we have created an account we need to give it access to our project.
 
-Go back to our Analytics page, and the property that you want the apis to work with. 
-Then enter the property access managment page.
-
+. Go back to our Analytics page, and the property that you want the apis to work with. 
+Then enter the property access management page.
++
 image::images/Analytics-property.png[Analytics overview the property column with the property access management at the bottom]
 
-On this page you can add new users and give them access to this property. 
-We want to add our service account to give access to this property
-
+- On this page you can add new users and give them access to this property. 
+. We want to add our Service account to give access to this property
++
 image::images/property-new-user.png[Dropdown on the property access page that shows create a new user]
 
-Now add the service account to the users that have access to the property.
-It only needs `read & Analyse` access
-
+. Now add the service account to the users that have access to the property. It only needs `Read & Analyse` access.
++
 image::images/new-user-service.png[A new user form filled in and showing the app button in the top right]
 
-Go back to the cloud platform and the service accounts menu option. Press on the service that was created.
-
+. Go back to the cloud platform and the service accounts menu option. Press on the service that was created.
++
 image::images/service-page-accounts.png[Service accounts in a list]
 
-On the service find the tab that is called keys. 
-And add a new key. 
-
+. On the service find the tab that is called "Keys" and add a new key. 
++
 image:images/service-keys.png[Show the keys tab with an add key button]
 
-We need to create a new p12 key. This file gives services access, so be careful to not share or send it to others. Only those that need access to it.
+. We need to create a new p12 key. This file gives services access, so be careful and share it only with those that need access to it.
 
-Now for our widget to be setup we need to add this information to our configuration file: 
+. Now for our widget to be set up we need to add this information to our configuration file: 
 `com.enonic.app.ga.cfg`: 
 
 ```
@@ -99,7 +95,7 @@ ga.p12KeyPath = ${xp.home}/config/ga_key.p12
 ga.mapsApiKey = <maps-api-key>
 ```
 
-Where:
+- Where:
  `service-account` is the email for our service and 
  `mapsApiKey` is the maps api key we have created
  and the p12 key with the correct name and path. (Need to add the p12 key to the folder too)
