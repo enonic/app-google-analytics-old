@@ -5,7 +5,7 @@ Google Analytics statistics for current page or site.
 
 Here's the documentation for this application:
 
-* [Installing the App](docs/installing.md)
+* [Installing the App](docs/index.adoc)
 
 
 ## Releases and Compatibility
