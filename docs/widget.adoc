@@ -1,9 +1,9 @@
 
-Our widget shows additional information that is provided by google analytics:
+Our widget shows additional information that is provided by Google Analytics:
 
 image::images/widget-preview.png[Bar chars and Pie charts, showing site statistics]
 
-We will need to set up a google cloud platform account. 
+We will need to set up a Google Cloud platform account. 
 
 . link:https://console.developers.google.com/project[Open Google Developers Console] and click Create Project on the dashboard.
 
@@ -19,20 +19,20 @@ image::images/Platform-menu-api.png[Shows the top level menu open and the APIs &
 +
 image::images/apis-services.png[Show the button labeled "+ Enable apis and services"]
 
-. Search for "Google Analytics Reporting Api" using the API Library search. 
+. Search for "Google Analytics Reporting API" using the API Library search. 
 - It should look like this: 
 +
-image::images/analytics-api.png[Shows The google analytics api in the search result]
+image::images/analytics-api.png[Shows The google analytics API in the search result]
 
-. And enable it: 
+. Click the "Enable" button: 
 +
-image::images/analytics-api-enable.png[Shows the analytics api page with an enable button]
+image::images/analytics-api-enable.png[Shows the analytics API page with an enable button]
 
-. And the same two steps for the Maps JavaScript API
+. Repeat the same two steps for the Maps JavaScript API
 +
 image::images/maps-api-enable.png[Shows the Maps JavaScript API with an enable button]
 
-. After enabling the Maps JavaScript API go to the "Credentials" tab which should look like this.
+. After enabling Maps JavaScript API go to the "Credentials" tab which should look like this:
 +
 image::images/Credentials.png[Shows the credentials tab]
 
@@ -60,10 +60,10 @@ image::images/service-overview.png[The list of service accounts]
 
 . Copy the email of the service account we will need twice later.
 
-Now that we have created an account we need to give it access to our project.
+  Now that we have created an account we need to give it access to our project.
 
-. Go back to our Analytics page, and the property that you want the apis to work with. 
-Then enter the property access management page.
+. Go back to our Analytics page, and the property that you want the APIs to work with. 
+  Then enter the property access management page.
 +
 image::images/Analytics-property.png[Analytics overview the property column with the property access management at the bottom]
 
@@ -76,7 +76,7 @@ image::images/property-new-user.png[Dropdown on the property access page that sh
 +
 image::images/new-user-service.png[A new user form filled in and showing the app button in the top right]
 
-. Go back to the cloud platform and the service accounts menu option. Press on the service that was created.
+. Go back to the Cloud platform and the service accounts menu option. Press on the service that was created.
 +
 image::images/service-page-accounts.png[Service accounts in a list]
 
