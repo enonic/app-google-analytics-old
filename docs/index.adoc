@@ -1,10 +1,10 @@
 ## Create a Google Analytics account:
 
-. Go to https://analytics.google.com and link your google account to google analytics.
+. Go to https://analytics.google.com and link your google account to Google Analytics.
 
-. Setup a ccount inside Google Analytics.
+. Set up an account inside Google Analytics.
 + 
-Give your account the name of the organization or another name that represents all sites/pages that will be included.
+Give your account name of the organization or another name that represents all sites/pages that will be included.
 +
 image::images/ga-01-1.png[Blue create account button]
 
@@ -32,11 +32,11 @@ image::images/tracking-id.png[Tracking id from the property page]
 
 . Log in to your XP admin and open the Applications tool: 
 +
-image::images/applications.png["Applications" button in the Enonic dashboard interface]
+image::images/Applications.png["Applications" button in the Enonic dashboard interface]
 
-. Press install button to open up the dialog with the list of all apps from the Enonic Market and use the filter to locate the Google Analytics app.
+. Press Install button to open up the dialog with the list of all apps from the Enonic Market and use the filter to locate the Google Analytics app.
 
-- When you have found the application you press the green install to add it.
+- When you have found the application press the green Install button to add it.
 +
 image::images/app-install.png[Install application inside the application admin tool]
 
@@ -44,14 +44,14 @@ image::images/app-install.png[Install application inside the application admin t
 +
 image::images/installed-app.png[Pop up showing the Google Analytics app is installed successfully]
 
-. Application should say installed.
+. Application should say "Installed".
 
 ## Add to site
 Now we have it installed on the system, but not added to a specific site yet.  
 
 . Navigate to Content Studio and edit **edit** the site you have set up the analytics for.  
 
-. Under the applications dropdown find Google Analytics app and check for it to be used:
+. In the applications dropdown find Google Analytics app and select it with a checkbox, then click "Apply":
 +
 image::images/site-install.png[Content studio site configuration showing the applications dropdown and Google Analytics App selected]
 
@@ -67,9 +67,9 @@ image::images/app-config.png[Red bar showing the Google Analytics needs addition
 +
 image::images/app-tracking-id.png[Google Analytics configuration: Tracking Id shows a placeholer UA Code, Enable tracking checked, Enable IP anonymization not checked]
 
-. Press apply to send page data to google analytics (tracking data might be delayed when first activated)
+. Press Apply to send page data to google analytics (tracking data might be delayed when first activated)
 
-The above steps will add Google Analytics to your site.
+The steps above will add Google Analytics to your site.
 We have additional analytics information available in our widget, but this needs to be set up. 
 
 link:widget.adoc[Set up widget]
