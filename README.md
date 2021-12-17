@@ -11,21 +11,22 @@ Here's the documentation for this application:
 ## Releases and Compatibility
 
 | App version | Required XP version | Download |
-| ----------- | ------------------- | -------- |
-| 1.10.0 | 7.3.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.10.0/ga-1.10.0.jar) |
-| 1.9.1 | 7.0.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.9.1/ga-1.9.1.jar) |
-| 1.9.0 | 7.0.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.9.0/ga-1.9.0.jar) |
-| 1.8.0 | 6.8.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.8.0/ga-1.8.0.jar) |
-| 1.7.0 | 6.8.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.7.0/ga-1.7.0.jar) |
-| 1.6.3 | 6.8.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.6.3/ga-1.6.3.jar) |
-| 1.6.2 | 6.8.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.6.2/ga-1.6.2.jar) |
-| 1.6.1 | 6.8.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.6.1/ga-1.6.1.jar) |
-| 1.6.0 | 6.8.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.6.0/ga-1.6.0.jar) |
-| 1.5.0 | 6.7.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.5.0/ga-1.5.0.jar) |
-| 1.4.0 | 6.6.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.4.0/ga-1.4.0.jar) |
-| 1.3.0 | 6.4.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.3.0/ga-1.3.0.jar) |
-| 1.2.0 | 6.3.1 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.2.0/ga-1.2.0.jar) |
-| 1.1.0 | 6.3.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.1.0/ga-1.1.0.jar) |
+|-------------| ------------------- | -------- |
+| 1.10.1      | 7.3.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.10.1/ga-1.10.1.jar) |
+| 1.10.0      | 7.3.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.10.0/ga-1.10.0.jar) |
+| 1.9.1       | 7.0.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.9.1/ga-1.9.1.jar) |
+| 1.9.0       | 7.0.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.9.0/ga-1.9.0.jar) |
+| 1.8.0       | 6.8.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.8.0/ga-1.8.0.jar) |
+| 1.7.0       | 6.8.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.7.0/ga-1.7.0.jar) |
+| 1.6.3       | 6.8.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.6.3/ga-1.6.3.jar) |
+| 1.6.2       | 6.8.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.6.2/ga-1.6.2.jar) |
+| 1.6.1       | 6.8.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.6.1/ga-1.6.1.jar) |
+| 1.6.0       | 6.8.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.6.0/ga-1.6.0.jar) |
+| 1.5.0       | 6.7.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.5.0/ga-1.5.0.jar) |
+| 1.4.0       | 6.6.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.4.0/ga-1.4.0.jar) |
+| 1.3.0       | 6.4.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.3.0/ga-1.3.0.jar) |
+| 1.2.0       | 6.3.1 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.2.0/ga-1.2.0.jar) |
+| 1.1.0       | 6.3.0 | [Download](http://repo.enonic.com/public/com/enonic/app/ga/1.1.0/ga-1.1.0.jar) |
 
 
 ## Building and deploying
