@@ -1,4 +1,4 @@
-## Create a Google Analytics account:
+## Set up Google Analytics
 
 . Go to https://analytics.google.com and link your google account to Google Analytics.
 
@@ -72,5 +72,6 @@ image::images/app-tracking-id.png[Google Analytics configuration: Tracking Id sh
 The steps above will add Google Analytics to your site.
 We have additional analytics information available in our widget, but this needs to be set up.
 
-link:widget.adoc[Set up widget]
+<<./widget#, Setup widget>>
+<<../framework/controllers#, controller>>
 Setting up the widget includes changes to server configuration files.
