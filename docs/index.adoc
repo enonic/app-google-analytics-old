@@ -73,5 +73,4 @@ The steps above will add Google Analytics to your site.
 We have additional analytics information available in our widget, but this needs to be set up.
 
 <<./widget#, Setup widget>>
-<<../framework/controllers#, controller>>
 Setting up the widget includes changes to server configuration files.
