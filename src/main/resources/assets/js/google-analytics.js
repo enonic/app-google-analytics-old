@@ -1,12 +1,13 @@
 (function() {
-    var widgetId = GA.config.widgetId;
-    var serviceUrl = GA.config.serviceurl;
-    var trackingId = GA.config.trackingid;
-    var pageId = GA.config.pageid;
-    var mapsApiKey = GA.config.mapsApiKey;
-    var embedApiJsUrl = GA.config.embedApiJsUrl;
-    var viewId;
-    var dataCharts = [];
+    const widget = document.getElementById('ga-widget');
+    const widgetId = widget.dataset.widgetId;
+    const serviceUrl = widget.dataset.serviceurl;
+    const trackingId = widget.dataset.trackingid;
+    const pageId = widget.dataset.pageid;
+    const mapsApiKey = widget.dataset.mapsapikey;
+    const embedApiJsUrl = widget.dataset.embedapijsurl;
+    const dataCharts = [];
+    let viewId;
 
 // GA API BEGIN
 
@@ -460,7 +461,7 @@
     }
 
     function getContainer(containerId) {
-        const widgetContainer = document.getElementById(`widget-${widgetId}`);
+        const widgetContainer = document.getElementById(`ga-widget`);
         return widgetContainer.querySelector(`#${containerId}`);
     }
 
@@ -530,7 +531,7 @@
     }
 
     function appendApi() {
-        const widgetContainer = document.getElementById(`widget-${widgetId}`);
+        const widgetContainer = document.getElementById(`ga-widget`);
 
         appendScript(widgetContainer, 1, embedApiJsUrl);
         if (mapsApiKey) {
@@ -543,11 +544,19 @@
         removeApi();
         if (isConfigValid()) {
             appendApi();
+            let count = 0;
 
-            const waitForApi = setTimeout(function(){
-                if (gapi) {
+            const waitForApi = setInterval(function(){
+                if (window.gapi) {
                     clearTimeout(waitForApi);
                     startWidget();
+                } else {
+                    if (count > 5) {
+                        clearTimeout(waitForApi);
+                        console.error('Could not load Goggle Analytics api');
+                     } else {
+                        count ++;
+                     }
                 }
             }, 100);
         }
