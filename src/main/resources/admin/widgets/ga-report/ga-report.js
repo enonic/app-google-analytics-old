@@ -1,10 +1,8 @@
-var contentLib = require('/lib/xp/content');
-var portalLib = require('/lib/xp/portal');
-var thymeleaf = require('/lib/thymeleaf');
+const portalLib = require('/lib/xp/portal');
+const thymeleaf = require('/lib/thymeleaf');
 
 function handleGet(req) {
-
-    var contentId = req.params.contentId;
+    let contentId = req.params.contentId;
 
     if (!contentId && portalLib.getContent()) {
         contentId = portalLib.getContent()._id;
@@ -17,25 +15,16 @@ function handleGet(req) {
         };
     }
 
-    var content = contentLib.get({key: contentId});
-    var site = contentLib.getSite({key: contentId});
-    var siteConfig = contentLib.getSiteConfig({key: contentId, applicationKey: app.name});
-    var pageId = "";
+    const configUrl = portalLib.serviceUrl({ service: 'gaconfig' });
 
-    if (content.type.indexOf(":site") == -1 && !!site) {
-        pageId = content._path.replace(site._path, "");
-    }
+    const view = resolve('ga-report.html');
 
-    var view = resolve('ga-report.html');
-    var params = {
+    const params = {
         googleAnalyticsCssUrl: portalLib.assetUrl({path: 'css/google-analytics.css'}),
-        embedApiJsUrl: portalLib.assetUrl({path: 'js/embed-api.js'}),
         googleAnalyticsJsUrl: portalLib.assetUrl({path: 'js/google-analytics.js'}),
-        serviceUrl: '/admin/rest/google-analytics/authenticate',
-        trackingId: siteConfig && siteConfig.trackingId ? siteConfig.trackingId : "",
-        mapsApiKey: app.config['ga.mapsApiKey'] || "",
-        pageId: siteConfig ? pageId : -1,
-        widgetId: app.name
+        configUrl,
+        contentId,
+        widgetId: app.name,
     };
 
     return {
