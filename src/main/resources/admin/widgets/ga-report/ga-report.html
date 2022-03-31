@@ -1,11 +1,8 @@
-<widget id="ga-widget"
-    data-th-attr="
-        data-widgetid=${widgetId},
-        data-serviceUrl=${serviceUrl},
-        data-trackingid=${trackingId},
-        data-pageid=${pageId},
-        data-mapsapikey=${mapsApiKey},
-        data-embedapijsurl=${embedApiJsUrl}">
+<widget th:id="${'widget-' + widgetId}">
+    <div hidden="true" id="ga-widget-data"
+        th:attr="data-configurl=${configUrl},
+            data-contentid=${contentId}">
+    </div>
     <link rel="stylesheet" th:href="${googleAnalyticsCssUrl}" type="text/css"/>
     <div data-th-id="ga-authenticated" th:class="widget-container" hidden="true">
         <div data-th-id="date-range-container" class="date-range-container">

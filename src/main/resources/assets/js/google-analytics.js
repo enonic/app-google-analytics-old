@@ -1,16 +1,43 @@
-(function() {
-    const widget = document.getElementById('ga-widget');
-    const widgetId = widget.dataset.widgetId;
-    const serviceUrl = widget.dataset.serviceurl;
-    const trackingId = widget.dataset.trackingid;
-    const pageId = widget.dataset.pageid;
-    const mapsApiKey = widget.dataset.mapsapikey;
-    const embedApiJsUrl = widget.dataset.embedapijsurl;
+(async function() {
+
+    function getConfig(url, contentId) {
+        return fetch(url,
+            {
+                method: 'POST',
+                body: JSON.stringify({contentId: contentId}),
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    console.error(response.status);
+                    showError('Could not fetch the config status code error');
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                showError('Could not fetch the config');
+                return null;
+            });
+    }
+
+    const dataContainer = document.getElementById('ga-widget-data');
+    const config = await getConfig(
+        dataContainer.dataset.configurl,
+        dataContainer.dataset.contentid,
+    );
+
+    // widget configuration
+    const widgetId = config.widgetId;
+    const serviceUrl = config.serviceUrl;
+    const trackingId = config.trackingId;
+    const pageId = config.pageId;
+    const mapsApiKey = config.mapsApiKey;
+    const embedApiJsUrl = config.embedApiJsUrl;
     const dataCharts = [];
     let viewId;
 
-// GA API BEGIN
-
+    // GA API BEGIN
     function queryAccounts() {
         gapi.client.analytics.management.accounts.list().then(handleAccounts);
     }
@@ -461,7 +488,7 @@
     }
 
     function getContainer(containerId) {
-        const widgetContainer = document.getElementById(`ga-widget`);
+        const widgetContainer = document.getElementById(`widget-${widgetId}`);
         return widgetContainer.querySelector(`#${containerId}`);
     }
 
@@ -531,7 +558,7 @@
     }
 
     function appendApi() {
-        const widgetContainer = document.getElementById(`ga-widget`);
+        const widgetContainer = document.getElementById(`widget-${widgetId}`);
 
         appendScript(widgetContainer, 1, embedApiJsUrl);
         if (mapsApiKey) {
