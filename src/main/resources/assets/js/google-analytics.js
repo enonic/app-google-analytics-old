@@ -1,43 +1,41 @@
-(async function() {
+(function() {
+    const dataCharts = [];
+    let config = {};
+    let viewId;
 
-    function getConfig(url, contentId) {
-        return fetch(url,
+    async function getConfig(url) {
+        const response = await fetch(url,
             {
-                method: 'POST',
-                body: JSON.stringify({contentId: contentId}),
+                method: 'GET',
             })
             .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
+                if (!response.ok) {
                     console.error(response.status);
                     showError('Could not fetch the config status code error');
                 }
+                return response;
             })
             .catch(error => {
                 console.error(error);
                 showError('Could not fetch the config');
-                return null;
             });
+
+        return response.json();
     }
 
-    const dataContainer = document.getElementById('ga-widget-data');
-    const config = await getConfig(
-        dataContainer.dataset.configurl,
-        dataContainer.dataset.contentid,
-    );
+    const configServiceUrl = document.currentScript.dataset.configurl;
 
-    // widget configuration
-    const widgetId = config.widgetId;
-    const serviceUrl = config.serviceUrl;
-    const trackingId = config.trackingId;
-    const pageId = config.pageId;
-    const mapsApiKey = config.mapsApiKey;
-    const embedApiJsUrl = config.embedApiJsUrl;
-    const dataCharts = [];
-    let viewId;
+    if (!configServiceUrl) {
+        throw 'Missing service url'
+    }
 
-    // GA API BEGIN
+    getConfig(configServiceUrl)
+        .then(data => {
+            config = data;
+            initApi();
+        });
+
+// GA API BEGIN
     function queryAccounts() {
         gapi.client.analytics.management.accounts.list().then(handleAccounts);
     }
@@ -59,18 +57,18 @@
             if (response.result.items.length == 1) {
                 accountId = response.result.items[0].id;
             } else {
-                let items = response.result.items.filter(item => (trackingId.indexOf(item.id) > -1));
+                let items = response.result.items.filter(item => (config.trackingId.indexOf(item.id) > -1));
                 if (items[0]) {
                     accountId = items[0].id;
                 }
             }
 
             // Uncomment if we need to show url for selected tracking Id
-            //getPropertyUrl(firstAccountId, trackingId);
+            //getPropertyUrl(firstAccountId, config.trackingId);
 
             if (accountId) {
                 // Query for properties.
-                queryProfiles(accountId, trackingId);
+                queryProfiles(accountId, config.trackingId);
             } else {
                 showError('No accounts found for the GA user.');
             }
@@ -109,7 +107,7 @@
             initDatePicker();
 
             // Show statistics for found View ID
-            if (pageId) {
+            if (config.pageId) {
                 showStatisticsForPage();
             } else {
                 showStatisticsForSite();
@@ -120,15 +118,15 @@
     }
 
     function isConfigValid() {
-        if (pageId == "-1") {
+        if (config.pageId == "-1") {
             showError("GA app not added to the site");
             return false;
         }
-        if (!serviceUrl) {
+        if (!config.serviceUrl) {
             showAuthenticationError();
             return false;
         }
-        if (!trackingId) {
+        if (!config.trackingId) {
             showAuthenticationError("Tracking Id not found");
             return false;
         }
@@ -138,7 +136,7 @@
 
     function getToken() {
         var request = new XMLHttpRequest();
-        request.open("GET", serviceUrl, true);
+        request.open("GET", config.serviceUrl, true);
         request.onload = function () {
             var responseObject = JSON.parse(request.responseText);
             if (responseObject.errorMessage) {
@@ -152,7 +150,7 @@
 
                 createTitle();
 
-                if (pageId) {
+                if (config.pageId) {
                     createContainerDiv("chart-container-1");
                     createContainerDiv("chart-container-2");
                     createContainerDiv("chart-container-3", "ga-kpi-chart");
@@ -264,7 +262,7 @@
             type: 'LINE',
             metrics: 'ga:pageViews,ga:uniquePageviews',
             dimensions: 'ga:date',
-            filters: 'ga:pagePath==' + pageId
+            filters: 'ga:pagePath==' + config.pageId
         });
 
         /**
@@ -275,7 +273,7 @@
             type: 'PIE',
             metrics: 'ga:sessions',
             dimensions: 'ga:userType',
-            filters: 'ga:pagePath==' + pageId
+            filters: 'ga:pagePath==' + config.pageId
         });
 
         /**
@@ -285,7 +283,7 @@
             query: {
                 ids: viewId,
                 metrics: 'ga:avgTimeOnPage,ga:avgPageLoadTime,ga:bounceRate',
-                filters: 'ga:pagePath==' + pageId
+                filters: 'ga:pagePath==' + config.pageId
             }
         });
 
@@ -484,12 +482,18 @@
     function createTitle() {
         var container = getContainer("ga-authenticated").querySelector("#date-range-container");
         var title = container.querySelector("span");
-        title.innerHTML = "Statistics for the " + (pageId ? "page" : "site");
+        title.innerHTML = "Statistics for the " + (config.pageId ? "page" : "site");
     }
 
     function getContainer(containerId) {
-        const widgetContainer = document.getElementById(`widget-${widgetId}`);
-        return widgetContainer.querySelector(`#${containerId}`);
+        // Since this is used for error messages, the config might not be initialized
+        if (config.widgetId) {
+            const widgetContainer = document.getElementById(`widget-${config.widgetId}`);
+            return widgetContainer.querySelector(`#${containerId}`);
+        }
+        else {
+            return document.querySelector(`#${containerId}`);
+        }
     }
 
     function createContainerDiv(divId, cls, parentId) {
@@ -531,7 +535,7 @@
 
     function removeApi() {
         const selectors = [
-            `script[id^="${widgetId}-script-"]`,
+            `script[id^="${config.widgetId}-script-"]`,
             'link[href^="https://www.gstatic.com"]',
             'script[src^="https://www.gstatic.com"]',
             'script[src^="https://maps.googleapis.com"]'
@@ -551,19 +555,19 @@
     function appendScript(container, counter, src) {
         const s = document.createElement("script");
 
-        s.id = `${widgetId}-script-${counter}`;
+        s.id = `${config.widgetId}-script-${counter}`;
         s.type = "text/javascript";
         s.src = src;
         container.append(s);
     }
 
     function appendApi() {
-        const widgetContainer = document.getElementById(`widget-${widgetId}`);
+        const widgetContainer = document.getElementById(`widget-${config.widgetId}`);
 
-        appendScript(widgetContainer, 1, embedApiJsUrl);
-        if (mapsApiKey) {
+        appendScript(widgetContainer, 1, config.embedApiJsUrl);
+        if (config.mapsApiKey) {
             appendScript(widgetContainer, 2, 'https://www.google.com/jsapi');
-            appendScript(widgetContainer, 3, `https://maps.googleapis.com/maps/api/js?key=${mapsApiKey}`);
+            appendScript(widgetContainer, 3, `https://maps.googleapis.com/maps/api/js?key=${config.mapsApiKey}`);
         }
     }
 
@@ -571,26 +575,19 @@
         removeApi();
         if (isConfigValid()) {
             appendApi();
-            let count = 0;
 
-            const waitForApi = setInterval(function(){
+            // Need to wait for google script to load
+            setTimeout(() => {
                 if (window.gapi) {
-                    clearTimeout(waitForApi);
                     startWidget();
                 } else {
-                    if (count > 5) {
-                        clearTimeout(waitForApi);
-                        console.error('Could not load Goggle Analytics api');
-                     } else {
-                        count ++;
-                     }
+                    console.error('Could not load Google Analytics api');
                 }
             }, 100);
         }
     }
 
     function startWidget() {
-
         if (gapi.analytics.auth) {
             getToken();
         } else {
@@ -599,7 +596,4 @@
             });
         }
     }
-
-    initApi();
-
 })();

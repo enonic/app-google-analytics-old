@@ -1,8 +1,7 @@
 <widget th:id="${'widget-' + widgetId}">
-    <div hidden="true" id="ga-widget-data"
-        th:attr="data-configurl=${configUrl},
-            data-contentid=${contentId}">
-    </div>
+    <script th:src="${googleAnalyticsJsUrl}"
+        th:attr="data-configurl=${configUrl}"
+        type="text/javascript"></script>
     <link rel="stylesheet" th:href="${googleAnalyticsCssUrl}" type="text/css"/>
     <div data-th-id="ga-authenticated" th:class="widget-container" hidden="true">
         <div data-th-id="date-range-container" class="date-range-container">
@@ -19,4 +18,3 @@
     </div>
     <div data-th-id="ga-not-authenticated" th:class="error" hidden="true"></div>
 </widget>
-<script th:src="${googleAnalyticsJsUrl}" type="text/javascript"></script>

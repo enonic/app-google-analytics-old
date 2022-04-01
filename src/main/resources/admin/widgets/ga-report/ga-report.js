@@ -15,7 +15,12 @@ function handleGet(req) {
         };
     }
 
-    const configUrl = portalLib.serviceUrl({ service: 'gaconfig' });
+    const configUrl = portalLib.serviceUrl({
+        service: 'gaconfig',
+        params: {
+            contentId,
+        }
+     });
 
     const view = resolve('ga-report.html');
 
@@ -23,7 +28,6 @@ function handleGet(req) {
         googleAnalyticsCssUrl: portalLib.assetUrl({path: 'css/google-analytics.css'}),
         googleAnalyticsJsUrl: portalLib.assetUrl({path: 'js/google-analytics.js'}),
         configUrl,
-        contentId,
         widgetId: app.name,
     };
 
