@@ -1,23 +1,12 @@
 const contentLib = require('/lib/xp/content');
 const portalLib = require('/lib/xp/portal');
 
-exports.post = function(req) {
+exports.get = function(req) {
     const serviceUrl = '/admin/rest/google-analytics/authenticate';
     const mapsApiKey = app.config['ga.mapsApiKey'] || "";
     const widgetId = app.name;
 
-    let contentId;
-
-    if (req.body && req.body !== "") {
-        const result = JSON.parse(req.body);
-        contentId = result.contentId;
-    }
-    else {
-        return {
-            status: 400,
-            message: 'invalidRequest'
-        }
-    }
+    let contentId = req.params.contentId;
 
     const embedApiJsUrl = portalLib.assetUrl({path: 'js/embed-api.js'});
     const siteConfig = contentLib.getSiteConfig({key: contentId, applicationKey: app.name});
