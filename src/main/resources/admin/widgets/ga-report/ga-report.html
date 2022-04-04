@@ -1,6 +1,6 @@
 <widget th:id="${'widget-' + widgetId}">
     <script th:src="${googleAnalyticsJsUrl}"
-        th:attr="data-configurl=${configUrl}"
+        th:attr="data-widgetserviceurl=${widgetServiceUrl}"
         type="text/javascript"></script>
     <link rel="stylesheet" th:href="${googleAnalyticsCssUrl}" type="text/css"/>
     <div data-th-id="ga-authenticated" th:class="widget-container" hidden="true">

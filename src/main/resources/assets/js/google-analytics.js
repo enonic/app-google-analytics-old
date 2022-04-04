@@ -1,6 +1,6 @@
 (function() {
     const dataCharts = [];
-    let config = {};
+    let widgetConfig = {};
     let viewId;
 
     async function getConfig(url) {
@@ -11,7 +11,7 @@
             .then(response => {
                 if (!response.ok) {
                     console.error(response.status);
-                    showError('Could not fetch the config status code error');
+                    showError(`Could not fetch the config status code ${response.status}`);
                 }
                 return response;
             })
@@ -23,15 +23,15 @@
         return response.json();
     }
 
-    const configServiceUrl = document.currentScript.dataset.configurl;
+    const widgetServiceUrl = document.currentScript.dataset.widgetserviceurl;
 
-    if (!configServiceUrl) {
+    if (!widgetServiceUrl) {
         throw 'Missing service url'
     }
 
-    getConfig(configServiceUrl)
+    getConfig(widgetServiceUrl)
         .then(data => {
-            config = data;
+            widgetConfig = data;
             initApi();
         });
 
@@ -57,7 +57,7 @@
             if (response.result.items.length == 1) {
                 accountId = response.result.items[0].id;
             } else {
-                let items = response.result.items.filter(item => (config.trackingId.indexOf(item.id) > -1));
+                let items = response.result.items.filter(item => (widgetConfig.trackingId.indexOf(item.id) > -1));
                 if (items[0]) {
                     accountId = items[0].id;
                 }
@@ -68,7 +68,7 @@
 
             if (accountId) {
                 // Query for properties.
-                queryProfiles(accountId, config.trackingId);
+                queryProfiles(accountId, widgetConfig.trackingId);
             } else {
                 showError('No accounts found for the GA user.');
             }
@@ -107,7 +107,7 @@
             initDatePicker();
 
             // Show statistics for found View ID
-            if (config.pageId) {
+            if (widgetConfig.pageId) {
                 showStatisticsForPage();
             } else {
                 showStatisticsForSite();
@@ -118,15 +118,15 @@
     }
 
     function isConfigValid() {
-        if (config.pageId == "-1") {
+        if (widgetConfig.pageId == "-1") {
             showError("GA app not added to the site");
             return false;
         }
-        if (!config.serviceUrl) {
+        if (!widgetConfig.serviceUrl) {
             showAuthenticationError();
             return false;
         }
-        if (!config.trackingId) {
+        if (!widgetConfig.trackingId) {
             showAuthenticationError("Tracking Id not found");
             return false;
         }
@@ -136,7 +136,7 @@
 
     function getToken() {
         var request = new XMLHttpRequest();
-        request.open("GET", config.serviceUrl, true);
+        request.open("GET", widgetConfig.serviceUrl, true);
         request.onload = function () {
             var responseObject = JSON.parse(request.responseText);
             if (responseObject.errorMessage) {
@@ -150,7 +150,7 @@
 
                 createTitle();
 
-                if (config.pageId) {
+                if (widgetConfig.pageId) {
                     createContainerDiv("chart-container-1");
                     createContainerDiv("chart-container-2");
                     createContainerDiv("chart-container-3", "ga-kpi-chart");
@@ -262,7 +262,7 @@
             type: 'LINE',
             metrics: 'ga:pageViews,ga:uniquePageviews',
             dimensions: 'ga:date',
-            filters: 'ga:pagePath==' + config.pageId
+            filters: 'ga:pagePath==' + widgetConfig.pageId
         });
 
         /**
@@ -273,7 +273,7 @@
             type: 'PIE',
             metrics: 'ga:sessions',
             dimensions: 'ga:userType',
-            filters: 'ga:pagePath==' + config.pageId
+            filters: 'ga:pagePath==' + widgetConfig.pageId
         });
 
         /**
@@ -283,7 +283,7 @@
             query: {
                 ids: viewId,
                 metrics: 'ga:avgTimeOnPage,ga:avgPageLoadTime,ga:bounceRate',
-                filters: 'ga:pagePath==' + config.pageId
+                filters: 'ga:pagePath==' + widgetConfig.pageId
             }
         });
 
@@ -482,13 +482,13 @@
     function createTitle() {
         var container = getContainer("ga-authenticated").querySelector("#date-range-container");
         var title = container.querySelector("span");
-        title.innerHTML = "Statistics for the " + (config.pageId ? "page" : "site");
+        title.innerHTML = "Statistics for the " + (widgetConfig.pageId ? "page" : "site");
     }
 
     function getContainer(containerId) {
         // Since this is used for error messages, the config might not be initialized
         if (config.widgetId) {
-            const widgetContainer = document.getElementById(`widget-${config.widgetId}`);
+            const widgetContainer = document.getElementById(`widget-${widgetConfig.widgetId}`);
             return widgetContainer.querySelector(`#${containerId}`);
         }
         else {
@@ -535,7 +535,7 @@
 
     function removeApi() {
         const selectors = [
-            `script[id^="${config.widgetId}-script-"]`,
+            `script[id^="${widgetConfig.widgetId}-script-"]`,
             'link[href^="https://www.gstatic.com"]',
             'script[src^="https://www.gstatic.com"]',
             'script[src^="https://maps.googleapis.com"]'
@@ -555,19 +555,21 @@
     function appendScript(container, counter, src) {
         const s = document.createElement("script");
 
-        s.id = `${config.widgetId}-script-${counter}`;
+        s.id = `${widgetConfig.widgetId}-script-${counter}`;
         s.type = "text/javascript";
         s.src = src;
         container.append(s);
     }
 
     function appendApi() {
-        const widgetContainer = document.getElementById(`widget-${config.widgetId}`);
+        const widgetContainer = document.getElementById(`widget-${widgetConfig.widgetId}`);
 
-        appendScript(widgetContainer, 1, config.embedApiJsUrl);
-        if (config.mapsApiKey) {
-            appendScript(widgetContainer, 2, 'https://www.google.com/jsapi');
-            appendScript(widgetContainer, 3, `https://maps.googleapis.com/maps/api/js?key=${config.mapsApiKey}`);
+        appendScript(widgetContainer, 1, widgetConfig.embedApiJsUrl);
+        const widgetUrl = new URL(widgetServiceUrl);
+
+        if (widgetConfig.mapsApiKey) {
+            appendScript(widgetContainer, 2, `${widgetUrl.hostname}${widgetUrl.pathname}?type=jsapi`);
+            appendScript(widgetContainer, 3, `${widgetUrl.hostname}${widgetUrl.pathname}?type=mapsapi&key=${widgetConfig.mapsApiKey}`);
         }
     }
 

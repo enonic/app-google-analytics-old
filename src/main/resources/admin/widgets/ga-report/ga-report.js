@@ -15,8 +15,8 @@ function handleGet(req) {
         };
     }
 
-    const configUrl = portalLib.serviceUrl({
-        service: 'gaconfig',
+    const widgetServiceUrl = portalLib.serviceUrl({
+        service: 'gawidget',
         params: {
             contentId,
         }
@@ -27,7 +27,7 @@ function handleGet(req) {
     const params = {
         googleAnalyticsCssUrl: portalLib.assetUrl({path: 'css/google-analytics.css'}),
         googleAnalyticsJsUrl: portalLib.assetUrl({path: 'js/google-analytics.js'}),
-        configUrl,
+        widgetServiceUrl,
         widgetId: app.name,
     };
 

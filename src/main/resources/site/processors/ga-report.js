@@ -27,6 +27,9 @@ exports.responseProcessor = function (req, res) {
 
     const serviceUrl = portalLib.serviceUrl({
         service: 'gascript',
+        params: {
+            type: 'tracking'
+        }
     });
 
     res.pageContributions.headEnd.push(`<script src='${serviceUrl}'></script>`);
