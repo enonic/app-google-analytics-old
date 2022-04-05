@@ -19,7 +19,9 @@ function handleGet(req) {
         service: 'gawidget',
         params: {
             contentId,
-        }
+            type: "config"
+        },
+        type: 'absolute'
      });
 
     const view = resolve('ga-report.html');

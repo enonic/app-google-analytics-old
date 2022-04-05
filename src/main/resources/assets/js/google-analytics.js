@@ -11,7 +11,7 @@
             .then(response => {
                 if (!response.ok) {
                     console.error(response.status);
-                    showError(`Could not fetch the config status code ${response.status}`);
+                    showError(`Could not fetch the config status code: ${response.status}`);
                 }
                 return response;
             })
@@ -64,7 +64,7 @@
             }
 
             // Uncomment if we need to show url for selected tracking Id
-            //getPropertyUrl(firstAccountId, config.trackingId);
+            //getPropertyUrl(firstAccountId, widgetConfig.trackingId);
 
             if (accountId) {
                 // Query for properties.
@@ -487,7 +487,7 @@
 
     function getContainer(containerId) {
         // Since this is used for error messages, the config might not be initialized
-        if (config.widgetId) {
+        if (widgetConfig.widgetId) {
             const widgetContainer = document.getElementById(`widget-${widgetConfig.widgetId}`);
             return widgetContainer.querySelector(`#${containerId}`);
         }
