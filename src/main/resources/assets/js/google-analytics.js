@@ -10,13 +10,11 @@
             })
             .then(response => {
                 if (!response.ok) {
-                    console.error(response.status);
                     showError('Could not fetch the config status code error');
                 }
                 return response;
             })
             .catch(error => {
-                console.error(error);
                 showError('Could not fetch the config');
             });
 
@@ -135,10 +133,10 @@
     }
 
     function getToken() {
-        var request = new XMLHttpRequest();
+        const request = new XMLHttpRequest();
         request.open("GET", config.serviceUrl, true);
         request.onload = function () {
-            var responseObject = JSON.parse(request.responseText);
+            const responseObject = JSON.parse(request.responseText);
             if (responseObject.errorMessage) {
                 showAuthenticationError(responseObject.errorMessage);
             } else if (responseObject.token) {
@@ -160,7 +158,10 @@
                     createContainerDiv("chart-container-2-1", "ga-vertical-container", "chart-container-2");
                     createContainerDiv("chart-container-2-2", "ga-vertical-container", "chart-container-2");
 
-                    createContainerDiv("chart-container-3", "ga-bycountry-container");
+                    if (config.mapsApiKey) {
+                        createContainerDiv("chart-container-map", "ga-bycountry-container");
+                    }
+
                     createContainerDiv("chart-container-4", "ga-bypage-container");
                     createContainerDiv("chart-container-5", "ga-byreferer-container");
                 }
@@ -191,7 +192,7 @@
 // DRAW CHART BEGIN
 
     function drawChart(containerId, config) {
-        var queryCfg = {
+        const queryCfg = {
             ids: viewId,
             metrics: config.metrics,
             dimensions: config.dimensions
@@ -207,7 +208,7 @@
             queryCfg.sort = config.sort;
         }
 
-        var chart = new gapi.analytics.googleCharts.DataChart({
+        const chart = new gapi.analytics.googleCharts.DataChart({
             query: queryCfg,
             chart: {
                 container: getContainer(containerId),
@@ -234,7 +235,7 @@
     }
 
     function getDateRangeObject() {
-        var startDate = getStartDate(getDateFromCookie('start-date') || '7daysAgo');
+        const startDate = getStartDate(getDateFromCookie('start-date') || '7daysAgo');
         return {
             query: {
                 'start-date': startDate,
@@ -244,12 +245,12 @@
     }
 
     function formatSeconds(seconds) {
-        var hours = parseInt(seconds / 3600) % 24;
-        var minutes = parseInt(seconds / 60) % 60;
-        var seconds = parseInt(seconds % 60);
+        const hours = parseInt(seconds / 3600) % 24;
+        const minutes = parseInt(seconds / 60) % 60;
+        const sec = parseInt(seconds % 60);
 
         return (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" +
-               (seconds < 10 ? "0" + seconds : seconds);
+               (sec < 10 ? "0" + sec : sec);
     }
 
     function showStatisticsForPage() {
@@ -279,7 +280,7 @@
         /**
          * Table with avg metrics
          */
-        var kpiRequest = new gapi.analytics.report.Data({
+        const kpiRequest = new gapi.analytics.report.Data({
             query: {
                 ids: viewId,
                 metrics: 'ga:avgTimeOnPage,ga:avgPageLoadTime,ga:bounceRate',
@@ -297,9 +298,9 @@
     function onKPILoaded(response) {
         if (response.totalsForAllResults) {
             createContainerDiv("kpi-container-data", "ga-kpi-container-data", "chart-container-3");
-            var textContainer = createContainerDiv("kpi-container-text", "ga-kpi-container-text", "chart-container-3");
+            const textContainer = createContainerDiv("kpi-container-text", "ga-kpi-container-text", "chart-container-3");
 
-            var container = createContainerDiv("kpi-container-1", "ga-kpi-container", "kpi-container-data");
+            let container = createContainerDiv("kpi-container-1", "ga-kpi-container", "kpi-container-data");
             container.innerHTML = "<div>" + parseFloat(response.totalsForAllResults["ga:avgPageLoadTime"]).toFixed(2) + "</div>";
 
             container = createContainerDiv("kpi-container-2", "ga-kpi-container", "kpi-container-data");
@@ -346,14 +347,16 @@
             'sort': '-ga:sessions'
         });
 
-        /**
-         * Geo chart by countries
-         */
-        drawChart("chart-container-3", {
-            type: 'GEO',
-            metrics: 'ga:users',
-            dimensions: 'ga:country'
-        });
+        if (config.mapsApiKey) {
+            /**
+             * Geo chart by countries
+             */
+            drawChart("chart-container-map", {
+                type: 'GEO',
+                metrics: 'ga:users',
+                dimensions: 'ga:country'
+            });
+        }
 
         /**
          * Table with top 10 pages
@@ -383,11 +386,11 @@
 // COOKIES BEGIN
 
     function createCookie(name, value, days) {
-        var expires = "";
+        let expires = "";
         if (days) {
-            var date = new Date();
+            const date = new Date();
             date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-            var expires = "; expires=" + date.toGMTString();
+            expires = "; expires=" + date.toGMTString();
         }
 
         document.cookie = name + "=" + value + expires + "; path=/";
@@ -402,10 +405,10 @@
     }
 
     function getCookie(cname) {
-        var name = cname + "=";
-        var ca = document.cookie.split(';');
-        for (var i = 0; i < ca.length; i++) {
-            var c = ca[i].trim();
+        const name = cname + "=";
+        const ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            const c = ca[i].trim();
             if (c.indexOf(name) == 0) {
                 return c.substring(name.length, c.length);
             }
@@ -423,28 +426,28 @@
 // DATE PICKER BEGIN
 
     function dateToString(date) {
-        var sDay = (date.getDate() < 10) ? "0" + date.getDate() : date.getDate().toString();
-        var sMonth = date.getMonth() + 1;
+        const sDay = (date.getDate() < 10) ? "0" + date.getDate() : date.getDate().toString();
+        let sMonth = date.getMonth() + 1;
         sMonth = (sMonth < 10) ? "0" + sMonth : sMonth.toString();
 
         return date.getFullYear() + "-" + sMonth + "-" + sDay;
     }
 
     function getFirstDateOfPeriod(delta) {
-        var date = new Date;
-        date = new Date(date.setDate(date.getDate() - (delta || 7) + 1));
+        const curDate = new Date;
+        const date = new Date(curDate.setDate(curDate.getDate() - (delta || 7) + 1));
 
         return dateToString(date);
     }
 
     function getFirstDateOfYear() {
-        var date = new Date;
-        return date.getFullYear() + "-01-01";
+        const curDate = new Date;
+        return curDate.getFullYear() + "-01-01";
     }
 
     function initDatePicker() {
-        var container = getContainer("ga-authenticated").querySelector("#date-range-container");
-        var select = container.querySelector("select");
+        const container = getContainer("ga-authenticated").querySelector("#date-range-container");
+        const select = container.querySelector("select");
         select.hidden = false;
         if (getDateFromCookie('start-date')) {
             select.value = getDateFromCookie('start-date');
@@ -480,8 +483,8 @@
 // DOM ELEMENTS BEGIN
 
     function createTitle() {
-        var container = getContainer("ga-authenticated").querySelector("#date-range-container");
-        var title = container.querySelector("span");
+        const container = getContainer("ga-authenticated").querySelector("#date-range-container");
+        const title = container.querySelector("span");
         title.innerHTML = "Statistics for the " + (config.pageId ? "page" : "site");
     }
 
@@ -497,8 +500,8 @@
     }
 
     function createContainerDiv(divId, cls, parentId) {
-        var container = getContainer(parentId || "ga-authenticated");
-        var div = container.querySelector("#" + divId);
+        const container = getContainer(parentId || "ga-authenticated");
+        let div = container.querySelector("#" + divId);
 
         if (!div) {
             div = document.createElement("div");
@@ -514,7 +517,7 @@
     }
 
     function setContainerVisible(containerId, visible) {
-        var container = getContainer(containerId);
+        const container = getContainer(containerId);
         if (container) {
             container.hidden = !visible;
         }
