@@ -549,7 +549,7 @@
                     clearTimeout(waitForApi);
                     startWidget();
                 }
-            }, 100);
+            }, 500);
         }
     }
 

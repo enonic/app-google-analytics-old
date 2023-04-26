@@ -1,18 +1,27 @@
 const  contentLib = require('/lib/xp/content');
 const  portalLib = require('/lib/xp/portal');
 
+//TODO check if tracking is enabled or not
+
 exports.responseProcessor = function (req, res) {
     let  contentId = req.params.contentId;
     if (!contentId) {
-        contentId = portalLib.getContent()._id;
+        const fetchContent = portalLib.getContent();
+        if (fetchContent) {
+            contentId = fetchContent._id;
+        } else {
+            return res;
+        }
     }
+
     const  siteConfig = contentLib.getSiteConfig({
         key: contentId,
         applicationKey: app.name
     });
-    const  measurementID = siteConfig['trackingId'] || '';
-    const  enableTracking = siteConfig['enableTracking'] || false;
-    const  enableAnonymization = siteConfig['enableAnonymization'] || false;
+
+    const  measurementID = siteConfig.GA4PropertyID || '';
+    const  enableTracking = siteConfig.enableTracking || false;
+    const  enableAnonymization = siteConfig.enableAnonymization || false;
 
     if (!measurementID || !enableTracking) {
         return res;

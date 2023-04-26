@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
   <form>
+    <input type="TextLine" name="GA4PropertyID">
+      <label>Google Analytics 4 Property ID</label>
+      <help-text>ID "G-XXXXXXXX"</help-text>
+      <occurrences minimum="0" maximum="1"/>
+    </input>
     <input type="TextLine" name="trackingId">
       <label>Tracking Id</label>
-      <help-text>Your Google Analytics 4 property ID "GA-XXXXXXXX"</help-text>
-      <occurrences minimum="1" maximum="1"/>
+      <occurrences minimum="0" maximum="1"/>
     </input>
     <input type="Checkbox" name="enableTracking">
       <label>Enable tracking</label>
